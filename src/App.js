@@ -27,7 +27,7 @@ function App() {
   }, [])
 
   return (
-    <div className="flex justify-center p-12 h-auto bg-primary-500">
+    <div className="flex justify-center p-12 min-h-screen h-auto bg-primary-500">
       <NetworkStatusBar online={online} />
       <div className="w-3/5 rounded-md bg-white p-10">
         <TodoHeader />
