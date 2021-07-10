@@ -86,7 +86,7 @@ registerRoute(
 )
 
 registerRoute(
-  "https://jsonplaceholder.typicode.com/todos/*",
+  /https:\/\/jsonplaceholder\.typicode\.com\/todos\/[0-9]+/,
   new NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
@@ -94,7 +94,7 @@ registerRoute(
 )
 
 registerRoute(
-  "https://jsonplaceholder.typicode.com/todos/*",
+  /https:\/\/jsonplaceholder\.typicode\.com\/todos\/[0-9]+/,
   new NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
