@@ -16,7 +16,7 @@ const NetworkStatusBar = ({ online = true }) => {
   return (
     <div className="fixed bottom-0 right-0 flex justify-end items-center text-white gap-2 py-1 px-4 bg-black m-2 rounded-full">
       <div className={circleClassnames}></div>
-      <div>{online ? "Online" : "Offline"}</div>
+      <div>{online ? "Connected" : "Disconnected"}</div>
     </div>
   )
 }

@@ -9,6 +9,7 @@ const itemClassNames = ({ completed }) =>
     "justify-between",
     "p-4",
     "mb-3",
+    "gap-4",
     "rounded-md",
     {
       "bg-gray-50": !completed,
@@ -37,7 +38,7 @@ const TodoItem = ({ id, title, completed, onToggle, onDelete }) => {
         <span className="ml-2 text-gray-700 cursor-pointer">{title}</span>
       </label>
       <button
-        className="w-8 h-8 p-2 text-gray-200  rounded-full  cursor-pointer hover:bg-red-500 hover:text-white"
+        className="w-8 h-8 p-2 text-gray-300  rounded-full  cursor-pointer hover:bg-red-500 hover:text-white"
         onClick={handleDeleteButtonClick}
       >
         <DeleteIcon />

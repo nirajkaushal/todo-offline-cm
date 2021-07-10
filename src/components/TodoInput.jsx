@@ -22,7 +22,7 @@ const TodoInput = ({ onAddTask }) => {
         onChange={handleInputChange}
       />
       <button
-        className="px-4 py-3 bg-primary-500 text-white border-2 border-primary-400 rounded-md"
+        className="px-4 py-3 bg-primary-400 text-white border-2 border-primary-400 rounded-md hover:border-primary-500 hover:bg-primary-500"
         onClick={handleAddTaskButtonClick}
       >
         Add Task
