@@ -67,19 +67,19 @@ registerRoute(
   })
 )
 
-registerRoute(/\.(?:js|css|html)$/, NetworkOnly())
+registerRoute(/\.(?:js|css|html)$/, new NetworkOnly())
 
-registerRoute("http://localhost:3000", NetworkOnly())
+registerRoute("http://localhost:3000", new NetworkOnly())
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos",
-  NetworkOnly(),
+  new NetworkOnly(),
   "GET"
 )
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos",
-  NetworkOnly({
+  new NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
   "POST"
@@ -87,7 +87,7 @@ registerRoute(
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos/*",
-  NetworkOnly({
+  new NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
   "PUT"
@@ -95,7 +95,7 @@ registerRoute(
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos/*",
-  NetworkOnly({
+  new NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
   "DELETE"
