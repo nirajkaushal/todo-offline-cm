@@ -11,7 +11,7 @@ import { clientsClaim } from "workbox-core"
 import { ExpirationPlugin } from "workbox-expiration"
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching"
 import { registerRoute } from "workbox-routing"
-import { StaleWhileRevalidate, networkFirst } from "workbox-strategies"
+import { StaleWhileRevalidate, NetworkOnly } from "workbox-strategies"
 import { BackgroundSyncPlugin } from "workbox-background-sync"
 
 const bgSyncPlugin = new BackgroundSyncPlugin("todoQueue", {
@@ -67,19 +67,19 @@ registerRoute(
   })
 )
 
-registerRoute(/\.(?:js|css|html)$/, networkFirst())
+registerRoute(/\.(?:js|css|html)$/, NetworkOnly())
 
-registerRoute("http://localhost:3000", networkFirst())
+registerRoute("http://localhost:3000", NetworkOnly())
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos",
-  networkFirst(),
+  NetworkOnly(),
   "GET"
 )
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos",
-  networkFirst({
+  NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
   "POST"
@@ -87,7 +87,7 @@ registerRoute(
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos/*",
-  networkFirst({
+  NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
   "PUT"
@@ -95,7 +95,7 @@ registerRoute(
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos/*",
-  networkFirst({
+  NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
   "DELETE"
