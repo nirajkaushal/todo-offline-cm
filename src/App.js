@@ -3,7 +3,6 @@ import "./App.css"
 import NetworkStatusBar from "./components/NetworkStatusBar"
 import TodoList from "./components/TodoList"
 import TodoHeader from "./components/TodoHeader"
-import TodoInput from "./components/TodoInput"
 
 function App() {
   return (
@@ -11,7 +10,6 @@ function App() {
       <NetworkStatusBar />
       <div className="w-3/5 rounded-md bg-white p-10">
         <TodoHeader />
-        <TodoInput />
         <TodoList />
       </div>
     </div>

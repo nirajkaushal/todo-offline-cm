@@ -16,25 +16,29 @@ const itemClassNames = ({ completed }) =>
     }
   )
 
-const TodoItem = ({ id, title, completed }) => {
-  const toggleComplete = () => {}
+const TodoItem = ({ id, title, completed, onToggle, onDelete }) => {
+  const handleCheckboxChange = (e) => {
+    onToggle({ id, checked: e.target.checked })
+  }
 
-  const deleteTask = () => {}
+  const handleDeleteButtonClick = () => {
+    onDelete(id)
+  }
 
   return (
     <div className={itemClassNames({ completed })}>
-      <label class="inline-flex items-center cursor-pointer">
+      <label className="inline-flex items-center cursor-pointer">
         <input
           type="checkbox"
-          class="form-checkbox h-5 w-5 text-primary-500 cursor-pointer focus:border-primary-300 focus:outline-none focus-visible:ring-0"
+          className="form-checkbox h-5 w-5 text-primary-500 cursor-pointer focus:border-primary-300 focus:outline-none focus-visible:ring-0"
           checked={completed}
-          onChange={toggleComplete}
+          onChange={handleCheckboxChange}
         />
-        <span class="ml-2 text-gray-700 cursor-pointer">{title}</span>
+        <span className="ml-2 text-gray-700 cursor-pointer">{title}</span>
       </label>
       <button
         className="w-8 h-8 p-2 text-gray-200  rounded-full  cursor-pointer hover:bg-red-500 hover:text-white"
-        onClick={deleteTask}
+        onClick={handleDeleteButtonClick}
       >
         <DeleteIcon />
       </button>
