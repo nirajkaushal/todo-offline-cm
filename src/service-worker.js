@@ -73,7 +73,9 @@ registerRoute("http://localhost:3000", new NetworkOnly())
 
 registerRoute(
   "https://jsonplaceholder.typicode.com/todos",
-  new NetworkOnly(),
+  new NetworkOnly({
+    plugins: [bgSyncPlugin],
+  }),
   "GET"
 )
 

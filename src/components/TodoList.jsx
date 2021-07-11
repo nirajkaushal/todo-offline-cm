@@ -1,21 +1,55 @@
 import React, { useEffect, useState } from "react"
+import localforage from "localforage"
 import TodoItem from "./TodoItem"
 import TodoInput from "./TodoInput"
+
+localforage.config({
+  driver: localforage.INDEXEDDB,
+  name: "TodoOfflineApp",
+  version: 1.0,
+  storeName: "todos_store",
+})
+
+const syncToStorage = async (todos) => {
+  try {
+    await localforage.setItem("todos", todos)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 const TodoList = () => {
   const [todos, setTodos] = useState([])
 
   useEffect(() => {
+    syncToStorage(todos)
+  }, [todos])
+
+  useEffect(() => {
     const fetchTodos = async () => {
-      const response = await fetch("https://jsonplaceholder.typicode.com/todos")
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/todos"
+        )
 
-      if (!response.ok) return
+        if (!response.ok) return
 
-      const todos = await response.json()
+        const todos = await response.json()
 
-      console.log("todos", todos)
+        setTodos(todos.reverse())
+        syncToStorage(todos)
+      } catch (err) {
+        syncToState()
+      }
+    }
 
-      setTodos(todos.reverse())
+    const syncToState = async () => {
+      try {
+        const localTodos = await localforage.getItem("todos")
+        setTodos(localTodos || [])
+      } catch (err) {
+        console.log(err)
+      }
     }
 
     fetchTodos()
