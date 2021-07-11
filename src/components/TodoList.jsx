@@ -104,7 +104,7 @@ const TodoList = () => {
     // Optiomistic update
     const clonedTodos = JSON.parse(JSON.stringify(todos))
 
-    const tempId = Date.now()
+    const tempId = todos.length + 1
     const tempTodos = [
       { id: tempId, title: value, completed: false },
       ...clonedTodos,
