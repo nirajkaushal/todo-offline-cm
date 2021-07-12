@@ -1,7 +1,26 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import classNames from "classnames"
 
-const NetworkStatusBar = ({ online = true }) => {
+const NetworkStatusBar = () => {
+  const [online, setOnline] = useState(true)
+
+  useEffect(() => {
+    setOnline(window.navigator.onLine)
+
+    window.addEventListener("offline", () => {
+      setOnline(false)
+    })
+
+    window.addEventListener("online", () => {
+      setOnline(true)
+    })
+
+    return () => {
+      window.removeEventListener("offline")
+      window.removeEventListener("online")
+    }
+  }, [])
+
   const circleClassnames = classNames(
     "w-3",
     "h-3",
