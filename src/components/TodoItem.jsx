@@ -41,7 +41,7 @@ const TodoItem = ({ id, title, completed, onToggle, onDelete }) => {
         <span className="ml-2 text-gray-700 cursor-pointer">{title}</span>
       </label>
       <button
-        className="w-8 h-8 p-2 text-gray-300  rounded-full  cursor-pointer hover:bg-red-500 hover:text-white"
+        className="w-8 h-8 p-2 flex justify-center items-center text-gray-300 rounded-full cursor-pointer hover:bg-red-500 hover:text-white"
         onClick={handleDeleteButtonClick}
       >
         <DeleteIcon />
