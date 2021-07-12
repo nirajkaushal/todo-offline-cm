@@ -7,10 +7,13 @@ const itemClassNames = ({ completed }) =>
     "flex",
     "items-center",
     "justify-between",
-    "p-4",
+    "p-2",
+    "md:p-4",
     "mb-3",
-    "gap-4",
-    "rounded-md",
+    "gap-2",
+    "md:gap-4",
+    "rounded-sm",
+    "md:rounded-md",
     {
       "bg-gray-50": !completed,
       "bg-green-100": completed,
@@ -28,7 +31,7 @@ const TodoItem = ({ id, title, completed, onToggle, onDelete }) => {
 
   return (
     <div className={itemClassNames({ completed })}>
-      <label className="inline-flex items-center cursor-pointer">
+      <label className="inline-flex items-center cursor-pointer flex-1">
         <input
           type="checkbox"
           className="form-checkbox h-5 w-5 text-primary-500 cursor-pointer focus:border-primary-300 focus:outline-none focus-visible:ring-0"
