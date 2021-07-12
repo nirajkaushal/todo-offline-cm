@@ -1,22 +1,8 @@
 import React, { useEffect, useState } from "react"
-import localforage from "localforage"
 import TodoItem from "./TodoItem"
 import TodoInput from "./TodoInput"
-
-localforage.config({
-  driver: localforage.INDEXEDDB,
-  name: "TodoOfflineApp",
-  version: 1.0,
-  storeName: "todos_store",
-})
-
-const syncToStorage = async (todos) => {
-  try {
-    await localforage.setItem("todos", todos)
-  } catch (err) {
-    console.log(err)
-  }
-}
+import { syncToStorage, syncToState } from "../config/localforage"
+import TodosService from "../services/todos.service"
 
 const TodoList = () => {
   const [todos, setTodos] = useState([])
@@ -28,27 +14,11 @@ const TodoList = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/todos"
-        )
-
-        if (!response.ok) return
-
-        const todos = await response.json()
+        const todos = await TodosService.getTodos()
 
         setTodos(todos.reverse())
-        syncToStorage(todos)
       } catch (err) {
-        syncToState()
-      }
-    }
-
-    const syncToState = async () => {
-      try {
-        const localTodos = await localforage.getItem("todos")
-        setTodos(localTodos || [])
-      } catch (err) {
-        console.log(err)
+        syncToState(setTodos)
       }
     }
 
@@ -64,18 +34,9 @@ const TodoList = () => {
     )
     setTodos(tempTodos)
 
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/todos/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ completed: checked }),
-      }
-    )
+    const todo = await TodosService.toggleTodo({ id, checked })
 
-    if (response.ok) return
+    if (todo) return
 
     setTodos(clonedTodos)
   }
@@ -88,42 +49,25 @@ const TodoList = () => {
 
     setTodos(tempTodos)
 
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/todos/${id}`,
-      {
-        method: "DELETE",
-      }
-    )
+    const todo = await TodosService.deleteTodo({ id })
 
-    if (response.ok) return
+    if (todo) return
 
     setTodos(clonedTodos)
   }
 
-  const handleAddTask = async (value) => {
-    // Optiomistic update
+  const handleAddTask = async (title) => {
+    // Optimistic update
     const clonedTodos = JSON.parse(JSON.stringify(todos))
 
     const tempId = todos.length + 1
-    const tempTodos = [
-      { id: tempId, title: value, completed: false },
-      ...clonedTodos,
-    ]
+    const tempTodos = [{ id: tempId, title, completed: false }, ...clonedTodos]
 
     setTodos(tempTodos)
 
-    const response = await fetch("https://jsonplaceholder.typicode.com/todos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title: value, completed: false }),
-    })
+    const todo = await TodosService.addTodo({ title })
 
-    console.log("response", response)
-    if (response.ok) {
-      const todo = await response.json()
-
+    if (todo) {
       setTodos(tempTodos.map((t) => (t.id === tempId ? todo : t)))
       return
     }
